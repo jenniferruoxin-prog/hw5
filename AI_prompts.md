@@ -226,3 +226,5 @@ This log records the prompts I typed to my AI coding assistant while completing 
 > yes I want it to match my layout picture exactly.
 
 > sure leave it
+
+> do not match the picture if it messes up with the code
