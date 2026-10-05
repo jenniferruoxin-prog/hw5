@@ -224,3 +224,5 @@ This log records the prompts I typed to my AI coding assistant while completing 
 > why are there two folders in output/
 
 > yes I want it to match my layout picture exactly.
+
+> sure leave it
