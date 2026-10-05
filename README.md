@@ -46,8 +46,7 @@ hw5/
     ├── desk_tickets.html      # Expected vs Actual per ticket, Cash, Reflection (double-click)
     ├── design.md              # dashboard design
     ├── resolved_tickets.json  # Problem 9 results per ticket
-    ├── resolved_board.html    # screenshots of the resolved board (double-click)
-    ├── resolved_board_images/ # the screenshots
+    ├── resolved_board.html    # screenshots of the resolved board, embedded in the page (double-click)
     ├── audit_trail.json       # every agent loop step, delegation and human approval (append-only)
     └── github_url.txt
 ```

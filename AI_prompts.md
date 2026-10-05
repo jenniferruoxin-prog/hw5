@@ -218,3 +218,9 @@ This log records the prompts I typed to my AI coding assistant while completing 
 > Now on problem 11. Push tmy code to a public GitHub repository so graders can clone it. I will need the repo URL, and also put it inoutput/github_url.txt.
 > Do not push my real .env to the GitHub repo. Do include both database files under data/(the original and my working copy) so graders can run your app easily.
 > Expected file layout showed in the picture. README should explain: copy original DB to the working copy when you need a clean run,start MCP server, start FastAPI backend, start the React board, reset the DB before a full three-ticket run.
+
+### Follow-up prompts
+
+> why are there two folders in output/
+
+> yes I want it to match my layout picture exactly.
