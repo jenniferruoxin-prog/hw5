@@ -1,0 +1,263 @@
+{
+  "description": "Smoke test of the three Campus Customs MCP tools, called by the vibe coder (Claude Code) through the connected 'campus-customs' MCP server in .mcp.json. tool_output is the exact JSON the MCP server returned; db_check compares each value with data/campus_customs_new.db.",
+  "run_date": "2026-10-04",
+  "mcp_server": {
+    "name": "campus-customs",
+    "config": ".mcp.json",
+    "script": "mcp_server/server.py",
+    "database": "data/campus_customs_new.db"
+  },
+  "vibe_coder": "Claude Code (desktop app), calling tools mcp__campus-customs__<tool>",
+  "tests": [
+    {
+      "step": 1,
+      "ticket": 101,
+      "prompt": "First, use the Campus Customs MCP tool `check_vendor_shipping` to check whether Bulldog Print Co is currently eligible to ship a restock for the size S tee in ticket 101. Use the shop date from the database. Return the MCP tool output exactly as received, without adding or inferring any information. Do not update the database.",
+      "tool_name": "check_vendor_shipping",
+      "mcp_tool_id": "mcp__campus-customs__check_vendor_shipping",
+      "tool_input": {
+        "vendor_id": 1
+      },
+      "tool_output": {
+        "date_today": "2026-08-31",
+        "vendors": [
+          {
+            "vendor_id": 1,
+            "name": "Bulldog Print Co",
+            "specialty": "apparel reprint",
+            "lead_days": 5,
+            "open_invoices": [
+              {
+                "invoice_id": 501,
+                "amount": 840,
+                "due_date": "2026-08-28",
+                "days_overdue": 3,
+                "overdue": true,
+                "description": "Rush reprint CC-TEE-WHITE S"
+              }
+            ],
+            "open_balance": 840,
+            "can_ship": false,
+            "earliest_arrival_if_ordered_today": null,
+            "blocked_reason": "Vendor will not ship while it has an open unpaid invoice."
+          }
+        ]
+      },
+      "db_check": [
+        {
+          "db_field": "desk.date_today",
+          "db_value": "2026-08-31",
+          "tool_value": "2026-08-31",
+          "match": true
+        },
+        {
+          "db_field": "vendors[1].name",
+          "db_value": "Bulldog Print Co",
+          "tool_value": "Bulldog Print Co",
+          "match": true
+        },
+        {
+          "db_field": "vendors[1].specialty",
+          "db_value": "apparel reprint",
+          "tool_value": "apparel reprint",
+          "match": true
+        },
+        {
+          "db_field": "vendors[1].lead_days",
+          "db_value": 5,
+          "tool_value": 5,
+          "match": true
+        },
+        {
+          "db_field": "invoices[501].vendor_id",
+          "db_value": 1,
+          "tool_value": 1,
+          "match": true
+        },
+        {
+          "db_field": "invoices[501].amount",
+          "db_value": 840.0,
+          "tool_value": 840,
+          "match": true
+        },
+        {
+          "db_field": "invoices[501].due_date",
+          "db_value": "2026-08-28",
+          "tool_value": "2026-08-28",
+          "match": true
+        },
+        {
+          "db_field": "invoices[501].status",
+          "db_value": "open",
+          "tool_value": "open",
+          "match": true
+        },
+        {
+          "db_field": "invoices[501].description",
+          "db_value": "Rush reprint CC-TEE-WHITE S",
+          "tool_value": "Rush reprint CC-TEE-WHITE S",
+          "match": true
+        },
+        {
+          "db_field": "tickets[101].invoice_id",
+          "db_value": 501,
+          "tool_value": 501,
+          "match": true
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "ticket": 102,
+      "prompt": "Second, use the Campus Customs MCP tool `get_rent_due` to retrieve the rent obligation owed to Elm City Properties for ticket 102. Determine its status using `desk.date_today`. Return the MCP tool output exactly as received, without adding or inferring any information. Do not create a payment and do not update the database.",
+      "tool_name": "get_rent_due",
+      "mcp_tool_id": "mcp__campus-customs__get_rent_due",
+      "tool_input": {
+        "lease_id": 1
+      },
+      "tool_output": {
+        "date_today": "2026-08-31",
+        "lease_id": 1,
+        "space_name": "Chapel Street shop",
+        "landlord": "Elm City Properties",
+        "monthly_rent": 2400,
+        "next_due": "2026-09-02",
+        "days_until_due": 2,
+        "overdue": false,
+        "notes": null
+      },
+      "db_check": [
+        {
+          "db_field": "desk.date_today",
+          "db_value": "2026-08-31",
+          "tool_value": "2026-08-31",
+          "match": true
+        },
+        {
+          "db_field": "tickets[102].lease_id",
+          "db_value": 1,
+          "tool_value": 1,
+          "match": true
+        },
+        {
+          "db_field": "leases[1].space_name",
+          "db_value": "Chapel Street shop",
+          "tool_value": "Chapel Street shop",
+          "match": true
+        },
+        {
+          "db_field": "leases[1].landlord",
+          "db_value": "Elm City Properties",
+          "tool_value": "Elm City Properties",
+          "match": true
+        },
+        {
+          "db_field": "leases[1].monthly_rent",
+          "db_value": 2400.0,
+          "tool_value": 2400,
+          "match": true
+        },
+        {
+          "db_field": "leases[1].next_due",
+          "db_value": "2026-09-02",
+          "tool_value": "2026-09-02",
+          "match": true
+        },
+        {
+          "db_field": "leases[1].notes",
+          "db_value": null,
+          "tool_value": null,
+          "match": true
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "ticket": 103,
+      "prompt": "Third, use the Campus Customs MCP tool `check_stock_and_price` to check the inventory and pricing information for the size M hoodie referenced in ticket 103. Return the quantity on hand, unit cost, and list price exactly as returned by the tool. Do not calculate or recommend a discount, and do not update the database.",
+      "tool_name": "check_stock_and_price",
+      "mcp_tool_id": "mcp__campus-customs__check_stock_and_price",
+      "tool_input": {
+        "sku": "CC-HOOD-NAVY",
+        "size": "M",
+        "qty_needed": 20
+      },
+      "tool_output": {
+        "sku": "CC-HOOD-NAVY",
+        "name": "Basic Hoodie Big Yale",
+        "size": "M",
+        "location": "Aisle A",
+        "qty_on_hand": 8,
+        "qty_needed": 20,
+        "shortfall": 12,
+        "can_fill_from_stock": false,
+        "unit_cost": 22,
+        "list_price": 58,
+        "margin_per_unit_at_list": 36,
+        "margin_pct_at_list": 62.1
+      },
+      "db_check": [
+        {
+          "db_field": "tickets[103].sku",
+          "db_value": "CC-HOOD-NAVY",
+          "tool_value": "CC-HOOD-NAVY",
+          "match": true
+        },
+        {
+          "db_field": "tickets[103].size",
+          "db_value": "M",
+          "tool_value": "M",
+          "match": true
+        },
+        {
+          "db_field": "tickets[103].qty",
+          "db_value": 20,
+          "tool_value": 20,
+          "match": true
+        },
+        {
+          "db_field": "inventory[CC-HOOD-NAVY,M].name",
+          "db_value": "Basic Hoodie Big Yale",
+          "tool_value": "Basic Hoodie Big Yale",
+          "match": true
+        },
+        {
+          "db_field": "inventory[CC-HOOD-NAVY,M].qty",
+          "db_value": 8,
+          "tool_value": 8,
+          "match": true
+        },
+        {
+          "db_field": "inventory[CC-HOOD-NAVY,M].location",
+          "db_value": "Aisle A",
+          "tool_value": "Aisle A",
+          "match": true
+        },
+        {
+          "db_field": "pricing[CC-HOOD-NAVY].unit_cost",
+          "db_value": 22.0,
+          "tool_value": 22,
+          "match": true
+        },
+        {
+          "db_field": "pricing[CC-HOOD-NAVY].list_price",
+          "db_value": 58.0,
+          "tool_value": 58,
+          "match": true
+        }
+      ]
+    }
+  ],
+  "all_values_match_db": true,
+  "database_unchanged": {
+    "campus_customs.db_md5": "46effb90d8811f03e219ea9b5fbdfa5a",
+    "campus_customs_new.db_md5": "46effb90d8811f03e219ea9b5fbdfa5a",
+    "identical_to_original": true,
+    "payments_rows": 0,
+    "ticket_statuses": {
+      "101": "open",
+      "102": "open",
+      "103": "open"
+    }
+  }
+}

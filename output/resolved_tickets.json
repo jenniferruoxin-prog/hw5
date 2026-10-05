@@ -1,0 +1,535 @@
+{
+  "generated_from": "output/audit_trail.json (runs after the 2026-10-04T23:58:12Z database reset) and data/campus_customs_new.db",
+  "model": "gpt-6-luna via Portkey",
+  "starting_checking_balance": 3400.0,
+  "ending_checking_balance": 152.0,
+  "tickets": [
+    {
+      "id": 101,
+      "final_status": "resolved",
+      "short_outcome": "Invoice 501 ($840) and a $8 restock purchase order were paid with human approval; the size S tee is ordered from Bulldog Print Co with expected arrival 2026-09-05 and an unsent customer draft is saved. Resolved under the human-defined completion criteria (delivery falls after the shop date).",
+      "agents": {
+        "boss": {
+          "contribution": "Routed the ticket (Inventory first, then Accounting and Customer Service), kept it awaiting_approval while payments were pending, then in_progress while the tee was not delivered, and resolved it once the human decision's completion criteria (order placed and paid, Sept 5 arrival recorded, draft saved) were verified.",
+          "mcp_tools_used": {
+            "get_ticket": 5,
+            "update_ticket_status": 5,
+            "list_payments": 5,
+            "check_stock_and_price": 3,
+            "check_vendor_shipping": 1
+          }
+        },
+        "inventory": {
+          "contribution": "Found CC-TEE-WHITE size S at 0 on hand (shortfall 1) and Bulldog Print Co blocked by open invoice 501 ($840, 3 days overdue); after payment, confirmed the vendor could ship with earliest arrival 2026-09-05 and that the tee had not yet been received.",
+          "mcp_tools_used": {
+            "check_stock_and_price": 3,
+            "check_vendor_shipping": 2,
+            "get_ticket": 2
+          }
+        },
+        "accounting": {
+          "contribution": "Verified invoice 501 and cash, filed approval request #1 ($840 to Bulldog Print Co); after it was paid, verified payment 1 and filed request #3 for a $8.00 purchase order (1 tee × $8 unit cost), leaving a projected $152.",
+          "mcp_tools_used": {
+            "get_invoice": 2,
+            "get_cash_balance": 2,
+            "request_payment_approval": 2,
+            "list_payments": 1,
+            "check_stock_and_price": 1,
+            "check_vendor_shipping": 1
+          }
+        },
+        "customer_service": {
+          "contribution": "Saved four unsent drafts to Tauhid Zaman as the facts changed; the final one says the tee is ordered and expected Sept 5, 2026, without claiming it has arrived.",
+          "mcp_tools_used": {
+            "save_draft": 4
+          }
+        }
+      },
+      "human_approvals": [
+        {
+          "approval_request_id": 1,
+          "kind": "invoice",
+          "payee": "Bulldog Print Co",
+          "amount": 840.0,
+          "requested_by": "accounting",
+          "status": "approved",
+          "approved_by": "Jennifer Zhang",
+          "payment_id": 1,
+          "paid_at": "2026-08-31"
+        },
+        {
+          "approval_request_id": 3,
+          "kind": "purchase_order",
+          "payee": "Bulldog Print Co",
+          "amount": 8.0,
+          "requested_by": "accounting",
+          "status": "approved",
+          "approved_by": "Jennifer Zhang",
+          "payment_id": 3,
+          "paid_at": "2026-08-31"
+        }
+      ],
+      "human_decisions": [
+        {
+          "decided_by": "Jennifer Zhang",
+          "decision": "Treat the ticket as complete once the tee order is placed and paid, its September 5 expected arrival is recorded, and the customer draft is saved. Do not claim it has arrived or contact the customer.",
+          "recorded_at": "2026-10-05T00:26:02+00:00"
+        }
+      ],
+      "cash_change": -848.0,
+      "runs": [
+        {
+          "run_id": "eb28253986fd",
+          "status_before": "open",
+          "status_after": "awaiting_approval",
+          "agents": [
+            "boss",
+            "inventory",
+            "accounting",
+            "customer_service"
+          ],
+          "delegations": [
+            {
+              "from": "boss",
+              "to": "inventory",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "customer_service",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "accounting",
+              "outcome": "answered"
+            }
+          ],
+          "tokens": 42461,
+          "boss_summary": "The requested CC-TEE-WHITE size S cannot currently be fulfilled: there are 0 on hand and a shortfall of 1. Bulldog Print Co, the apparel-reprint vendor, is blocked by overdue unpaid invoice 501. Human approval request #1 for the $840 invoice is pending; no payment or restock order has occurred. A customer update draft was saved but not sent, and the ticket is awaiting approval."
+        },
+        {
+          "run_id": "45a74623cc51",
+          "status_before": "awaiting_approval",
+          "status_after": "awaiting_approval",
+          "agents": [
+            "boss",
+            "inventory",
+            "accounting",
+            "customer_service"
+          ],
+          "delegations": [
+            {
+              "from": "boss",
+              "to": "inventory",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "accounting",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "customer_service",
+              "outcome": "answered"
+            }
+          ],
+          "tokens": 50155,
+          "boss_summary": "Invoice 501 has been paid, so Bulldog Print Co can ship. The requested tee is still out of stock; a $8.00 purchase-order approval request is pending, so the restock has not yet been ordered. Ticket remains awaiting approval."
+        },
+        {
+          "run_id": "fc4c9be7fe5a",
+          "status_before": "awaiting_approval",
+          "status_after": "in_progress",
+          "agents": [
+            "boss",
+            "inventory",
+            "customer_service"
+          ],
+          "delegations": [
+            {
+              "from": "boss",
+              "to": "inventory",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "customer_service",
+              "outcome": "answered"
+            }
+          ],
+          "tokens": 42489,
+          "boss_summary": "Invoice 501 and the $8 restock purchase-order payment are verified paid, but there is no verified record that the vendor order was placed or delivered. The requested size S tee remains out of stock, so the ticket is in progress pending confirmation of order placement and fulfillment. An updated customer draft is saved and not sent."
+        },
+        {
+          "run_id": "32359642ba8a",
+          "status_before": "in_progress",
+          "status_after": "in_progress",
+          "agents": [
+            "boss",
+            "inventory",
+            "customer_service"
+          ],
+          "delegations": [
+            {
+              "from": "boss",
+              "to": "customer_service",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "inventory",
+              "outcome": "answered"
+            }
+          ],
+          "tokens": 49891,
+          "boss_summary": "The one-unit CC-TEE-WHITE size S restock order is placed with Bulldog Print Co and has an expected arrival of September 5, 2026. It has not been confirmed delivered, and shelf stock remains zero, so the customer order is not yet fulfilled. The ticket remains in progress; an updated customer draft is saved and unsent."
+        },
+        {
+          "run_id": "be87a4bcd1e8",
+          "status_before": "in_progress",
+          "status_after": "resolved",
+          "agents": [
+            "boss"
+          ],
+          "delegations": [],
+          "tokens": 18312,
+          "boss_summary": "Resolved per the recorded human direction: one CC-TEE-WHITE tee in size S was ordered from Bulldog Print Co, payment and expected arrival date are recorded, and the customer update draft is saved. The tee has not been received; current stock is 0 with a shortfall of 1."
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "final_status": "resolved",
+      "short_outcome": "Lease 1 rent of $2,400 for the 2026-09-02 due date was paid with human approval; next rent is due 2026-10-02. No duplicate payment was made.",
+      "agents": {
+        "boss": {
+          "contribution": "Routed to Facilities first, then Accounting; held the ticket at awaiting_approval until the rent was paid, kept it in_progress while the Sept 2 / Oct 2 due-date question was open, and resolved it once the payment's covered due date was verified (no duplicate payment).",
+          "mcp_tools_used": {
+            "get_ticket": 2,
+            "update_ticket_status": 3,
+            "get_rent_due": 1,
+            "list_payments": 1,
+            "get_cash_balance": 1
+          }
+        },
+        "facilities": {
+          "contribution": "Verified lease 1: $2,400 to Elm City Properties, due 2026-09-02 (2 days, not overdue); after payment, confirmed payment 2 covered the Sept 2 due date and next rent is due 2026-10-02.",
+          "mcp_tools_used": {
+            "get_rent_due": 4,
+            "list_payments": 1
+          }
+        },
+        "accounting": {
+          "contribution": "Checked cash and existing rent payments (none), filed approval request #2 for $2,400 with projected balance $160 after both pending requests; on the final run confirmed the rent was already paid and declined to request it twice.",
+          "mcp_tools_used": {
+            "get_cash_balance": 2,
+            "list_payments": 2,
+            "list_approval_requests": 2,
+            "request_payment_approval": 1,
+            "get_rent_due": 1
+          }
+        },
+        "customer_service": {
+          "contribution": "Saved one unsent clarification draft to Elm City Properties about the due date and payment allocation (written during the run before the rent tool showed which due date a payment covered).",
+          "mcp_tools_used": {
+            "save_draft": 1
+          }
+        }
+      },
+      "human_approvals": [
+        {
+          "approval_request_id": 2,
+          "kind": "rent",
+          "payee": "Elm City Properties",
+          "amount": 2400.0,
+          "requested_by": "accounting",
+          "status": "approved",
+          "approved_by": "Jennifer Zhang",
+          "payment_id": 2,
+          "paid_at": "2026-08-31"
+        }
+      ],
+      "human_decisions": [],
+      "cash_change": -2400.0,
+      "runs": [
+        {
+          "run_id": "891a48a5d868",
+          "status_before": "open",
+          "status_after": "awaiting_approval",
+          "agents": [
+            "boss",
+            "facilities",
+            "accounting"
+          ],
+          "delegations": [
+            {
+              "from": "boss",
+              "to": "facilities",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "accounting",
+              "outcome": "answered"
+            }
+          ],
+          "tokens": 32491,
+          "boss_summary": "Lease 1 rent is $2,400.00 and is due in two days, on 2026-09-02. No payment was recorded; human approval has been requested and no payment has been made."
+        },
+        {
+          "run_id": "4b646857f2d9",
+          "status_before": "awaiting_approval",
+          "status_after": "in_progress",
+          "agents": [
+            "boss",
+            "facilities",
+            "customer_service"
+          ],
+          "delegations": [
+            {
+              "from": "boss",
+              "to": "facilities",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "customer_service",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "facilities",
+              "outcome": "answered"
+            }
+          ],
+          "tokens": 42008,
+          "boss_summary": "The rent approval is no longer pending: request 2 was approved, and a $2,400 payment (payment id 2) is recorded for lease 1 on 2026-08-31. The notice and approval identify 2026-09-02, while the current lease record shows the next due date as 2026-10-02 (32 days after the shop date). The discrepancy is unresolved, so the ticket is in progress rather than resolved; a clarification draft is saved but not sent."
+        },
+        {
+          "run_id": "cc462e1d6bb9",
+          "status_before": "in_progress",
+          "status_after": "resolved",
+          "agents": [
+            "boss",
+            "facilities",
+            "accounting"
+          ],
+          "delegations": [
+            {
+              "from": "facilities",
+              "to": "boss",
+              "outcome": "refused"
+            },
+            {
+              "from": "boss",
+              "to": "facilities",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "accounting",
+              "outcome": "answered"
+            }
+          ],
+          "tokens": 26540,
+          "boss_summary": "Resolved the rent notice: the $2,400 rent covering the 2026-09-02 due date was already paid with human approval on 2026-08-31. No additional payment approval was requested, avoiding a duplicate payment."
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "final_status": "resolved",
+      "short_outcome": "Per the human decision, only the 8 in-stock size M hoodies are offered at a 10% discount ($52.20 each, still above the $22 cost); the remaining 12 are not restocked and no purchase was made. Unsent customer draft saved.",
+      "agents": {
+        "boss": {
+          "contribution": "Routed to Inventory and Accounting, refused to invent a discount without authority (blocked, then awaiting human price authorization), applied Jennifer Zhang's recorded decision, and resolved the ticket once the discounted draft was saved.",
+          "mcp_tools_used": {
+            "get_ticket": 7,
+            "update_ticket_status": 4
+          }
+        },
+        "inventory": {
+          "contribution": "Verified 8 of 20 CC-HOOD-NAVY size M on hand (shortfall 12); first found Bulldog Print Co blocked by invoice 501 and asked Accounting about it, later confirmed the vendor could ship.",
+          "mcp_tools_used": {
+            "check_stock_and_price": 4,
+            "check_vendor_shipping": 4
+          }
+        },
+        "accounting": {
+          "contribution": "Verified cost $22 and list $58 ($36 margin, 62.1%), stated the $22 cost floor, found no recorded discount policy, and computed the approved offer's margin: $52.20 − $22 = $30.20 per hoodie (57.9%). No payment requested.",
+          "mcp_tools_used": {
+            "check_stock_and_price": 4,
+            "get_invoice": 1,
+            "list_payments": 1,
+            "list_approval_requests": 1,
+            "get_cash_balance": 1,
+            "get_ticket": 3
+          }
+        },
+        "customer_service": {
+          "contribution": "Saved three unsent drafts to Yale AI Club; the final one offers only the 8 in-stock hoodies at $52.20 each (10% off $58.00) and says the remaining 12 are unavailable.",
+          "mcp_tools_used": {
+            "save_draft": 3
+          }
+        }
+      },
+      "human_approvals": [],
+      "human_decisions": [
+        {
+          "decided_by": "Jennifer Zhang",
+          "decision": "Offer only the 8 in-stock hoodies at a 10% discount ($52.20 each). Do not restock the remaining 12 or approve another purchase. Save, but do not send, a customer draft.",
+          "recorded_at": "2026-10-05T00:26:04+00:00"
+        },
+        {
+          "decided_by": "Jennifer Zhang",
+          "decision": "Treat ticket 103 as complete once the discounted offer for the 8 in-stock hoodies is saved as a customer draft. Do not send it.",
+          "recorded_at": "2026-10-05T00:28:56+00:00"
+        }
+      ],
+      "cash_change": 0,
+      "runs": [
+        {
+          "run_id": "8c448bd20fc9",
+          "status_before": "open",
+          "status_after": "blocked",
+          "agents": [
+            "boss",
+            "inventory",
+            "accounting",
+            "customer_service"
+          ],
+          "delegations": [
+            {
+              "from": "inventory",
+              "to": "accounting",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "inventory",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "accounting",
+              "outcome": "answered"
+            },
+            {
+              "from": "accounting",
+              "to": "boss",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "accounting",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "customer_service",
+              "outcome": "answered"
+            }
+          ],
+          "tokens": 79207,
+          "boss_summary": "The requested 20 size-M hoodies cannot currently be confirmed: only 8 are in stock, and the listed apparel reprint vendor is blocked from shipping while invoice 501 has a separate pending payment approval on ticket 101. No bulk-discount policy or approved offer is verified. A noncommittal draft is saved, not sent. Ticket 103 is blocked pending stock/price resolution."
+        },
+        {
+          "run_id": "3c63ac826748",
+          "status_before": "blocked",
+          "status_after": "awaiting_approval",
+          "agents": [
+            "boss",
+            "inventory",
+            "accounting",
+            "customer_service"
+          ],
+          "delegations": [
+            {
+              "from": "boss",
+              "to": "accounting",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "inventory",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "customer_service",
+              "outcome": "answered"
+            }
+          ],
+          "tokens": 40946,
+          "boss_summary": "The requested 20 hoodies cannot be filled from current stock: 8 are available and 12 are short. Bulldog Print Co can ship a restock with earliest arrival 2026-09-05 if ordered today. List price is $58.00 each; no discount is authorized or verified. A customer draft has been saved but not sent, and the ticket is awaiting human price authorization for any below-list offer."
+        },
+        {
+          "run_id": "e82ee2b28a18",
+          "status_before": "awaiting_approval",
+          "status_after": "in_progress",
+          "agents": [
+            "boss",
+            "inventory",
+            "accounting",
+            "customer_service"
+          ],
+          "delegations": [
+            {
+              "from": "boss",
+              "to": "inventory",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "accounting",
+              "outcome": "answered"
+            },
+            {
+              "from": "accounting",
+              "to": "boss",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "accounting",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "customer_service",
+              "outcome": "answered"
+            }
+          ],
+          "tokens": 64015,
+          "boss_summary": "The human decision is to offer only the 8 in-stock CC-HOOD-NAVY size M hoodies at $52.20 each (10% off list), without restocking or offering the other 12. Customer Service saved an unsent draft; the ticket remains in progress pending human follow-up on the draft."
+        },
+        {
+          "run_id": "35ae64510bd3",
+          "status_before": "in_progress",
+          "status_after": "resolved",
+          "agents": [
+            "boss",
+            "inventory",
+            "accounting"
+          ],
+          "delegations": [
+            {
+              "from": "boss",
+              "to": "accounting",
+              "outcome": "answered"
+            },
+            {
+              "from": "boss",
+              "to": "inventory",
+              "outcome": "answered"
+            }
+          ],
+          "tokens": 38468,
+          "boss_summary": "Resolved. Per the recorded human decision, offer only the 8 size-M navy hoodies in stock at 10% off ($52.20 each); do not restock or offer the remaining 12. The customer draft is saved and unsent."
+        }
+      ]
+    }
+  ]
+}

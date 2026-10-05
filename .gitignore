@@ -1,0 +1,28 @@
+# Secrets: never commit the real key file (only .env.example)
+.env
+.env.*
+!.env.example
+
+# Course download (its contents are committed as data/campus_customs.db)
+data.zip
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Node / build output
+node_modules/
+dist/
+
+# Runtime logs and temp files
+*.log
+*.tmp
+output/audit_trail.json.tmp
+output/audit_trail.corrupt-*.json
+
+# Local tools and scratch files
+.claude/
